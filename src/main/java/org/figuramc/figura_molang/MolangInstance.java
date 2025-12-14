@@ -173,7 +173,8 @@ public class MolangInstance<Actor, OOMErr extends Throwable> {
                 BytecodeUtil.constInt(evaluateMethod, 0);
             }
             JvmCompilationContext ctx = new JvmCompilationContext(arrayVariableIndex, firstUnusedLocal, 0);
-            expr.compileToJvmBytecode(evaluateMethod, 0, ctx);
+            int outputArrayIndex = ctx.reserveArraySlots(expr.returnCount());
+            expr.compileToJvmBytecode(evaluateMethod, outputArrayIndex, ctx);
             if (expr.returnCount() == 1) {
                 evaluateMethod.visitInsn(Opcodes.FASTORE);
             }
